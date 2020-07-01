@@ -1,0 +1,7 @@
+.git
+.vscode
+/venv/
+*__pycache__*
+docker-compose.debug.yml
+db.sqlite3
+.dockerignore
