@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser, \
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
-        """Creates and saves a new user"""
+        # Creates and saves a new user
         if not email:
             raise ValueError('User must have email')
         user = self.model(email=self.normalize_email(email), **extra_fields)
@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    """Custom user model that support email"""
+    # Custom user model that support email
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)

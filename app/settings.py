@@ -1,22 +1,16 @@
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'h+&k2hbo&ynf9$x)&_2#w2otdaq5*^_rvvhzwcrf$xp^=)1p+*'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -26,7 +20,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'core.apps.CoreConfig'
+    'rest_framework.authtoken',
+    'core.apps.CoreConfig',
+    'user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -59,10 +55,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -70,9 +62,13 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS'),
+        }
     }
-}
 
+# Covers regular testing and django-coverage
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+    DATABASES['default']['NAME'] = ':memory:'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
