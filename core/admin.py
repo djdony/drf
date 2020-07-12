@@ -7,7 +7,8 @@ from core import models
 
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
-    list_display = ['email', 'name']
+    list_display = ['email', 'name', 'is_active', 'custom_group']
+    list_filter = ['groups', 'is_staff', 'is_superuser', 'is_active']
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal Info'), {'fields': ('name',)}),
@@ -29,6 +30,10 @@ class UserAdmin(BaseUserAdmin):
             'fields': ('email', 'password1', 'password2')
             }),
         )
+
+    def custom_group(self, obj):
+        # get group, separate by comma, and display empty string if user has no group
+        return ','.join([g.name for g in obj.groups.all()]) if obj.groups.count() else ''
 
 
 admin.site.register(models.User, UserAdmin)

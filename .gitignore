@@ -5,3 +5,4 @@
 docker-compose.debug.yml
 db.sqlite3
 .dockerignore
+*migrations*
